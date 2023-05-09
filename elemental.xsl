@@ -4,7 +4,7 @@
 <!-- Find all Pokemon that have a type of "fire", "water", "flying", or "ground" -->
 <!-- SELECT COUNT(*) FROM pokemon_types_view 
      WHERE type1 IN ('fire', 'water', 'flying', 'ground') 
-        OR type2 IN ('fire', 'water', 'flying', 'ground') = 328 Pokemon -->
+        OR type2 IN ('fire', 'water', 'flying', 'ground') = Pokemon -->
 
 <!-- 
   This block creates a comma-separated list for the types, so that we get
@@ -23,20 +23,20 @@
   formatted HTML file.
   -->
 <!-- In this template, select all the pokemon that are fire, water, flying or ground -->
-<!--
+
 <xsl:template match="/pokedex">
-    <xsl:apply-templates select="XPATH-QUERY-GOES-HERE" />
+    <xsl:apply-templates select="/pokedex/pokemon[type = 'fire' or type = 'water' or type = 'flying' or type = 'ground']" />
 </xsl:template>
- -->
+ 
 
 <!-- In this template, select the name, pokedexNumber, and type in each of the value-of
      statements, respectively. -->
-<!-- 
+
 <xsl:template match="pokemon">
-    <xsl:value-of select="XPATH-QUERY-GOES-HERE" /> (<xsl:value-of select="XPATH-QUERY-GOES-HERE" />): <xsl:apply-templates select="XPATH-QUERY-GOES-HERE" /><xsl:text>
+    <xsl:value-of select="name" /> (<xsl:value-of select="@pokedexNumber" />): <xsl:apply-templates select="type" /><xsl:text>
 </xsl:text>
 </xsl:template>
--->
+
 
 <!--
   These rules will generate HTML output rather than text. This is to demonstrate
@@ -46,8 +46,9 @@
   in the other xsl files.
   -->
 <!-- In this template, select all the pokemon that are fire, water, flying or ground -->
+<!--
 <xsl:template match="/pokedex">
-  <xsl:variable name="pokemonResults" select="XPATH-QUERY-GOES-HERE" />
+  <xsl:variable name="pokemonResults" select="/pokedex/pokemon[type = 'fire' or type = 'water' or type = 'flying' or type = 'ground']" />
 
   <html>
   <body>
@@ -63,14 +64,15 @@
   </body>
   </html>
 </xsl:template>
-
+-->
 <!-- In this template, select the name, pokedexNumber, and type in each of the value-of
      statements, respectively. -->
+<!--
 <xsl:template match="pokemon">
     <tr>
-      <td><xsl:value-of select=".XPATH-QUERY-GOES-HERE" />(<xsl:value-of select="XPATH-QUERY-GOES-HERE" />)</td>
-      <td><xsl:apply-templates select="XPATH-QUERY-GOES-HERE" /></td>
+      <td><xsl:value-of select="name" />(<xsl:value-of select="@pokedexNumber" />)</td>
+      <td><xsl:apply-templates select="type" /></td>
     </tr>
 </xsl:template>
-
+-->
 </xsl:stylesheet>

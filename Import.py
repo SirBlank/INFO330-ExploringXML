@@ -29,7 +29,36 @@ if len(sys.argv) < 2:
     print("You must pass at least one XML file name containing Pokemon to insert")
 
 for i, arg in enumerate(sys.argv):
-    # Skip if this is the Python filename (argv[0])
-    if i == 0:
-        continue
+    connection = sqlite3.connect("pokemon.sqlite")
+    try:
+        cursor = connection.cursor()
+        if i == 0:
+            continue
 
+        tree = ET.parse(arg)
+        root = tree.getroot()
+
+
+        name = root.find('name').text
+        cursor.execute('SELECT count(*) FROM pokemon WHERE name=?', (name,))
+        if cursor.fetchone()[0] > 0:
+            print(f"{name} already exists in the database")
+            continue
+
+        pokedex = root.attrib['pokedex']
+        classification = root.attrib['classification']
+        generation = root.attrib['generation']
+        hp = root.find('hp').text
+        attack = root.find('attack').text
+        defense = root.find('defense').text
+        speed = root.find('speed').text
+        sp_attack = root.find('sp_attack').text
+        sp_defense = root.find('sp_defense').text
+        height = root.find('height/m').text
+        weight = root.find('weight/kg').text
+
+        cursor.execute('INSERT INTO pokemon (pokedex, name, classification, generation, hp, attack, defense, speed, sp_attack, sp_defense, height, weight) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', (pokedex, name, classification, generation, hp, attack, defense, speed, sp_attack, sp_defense, height, weight))
+        connection.commit()
+
+    finally:
+        connection.close()
