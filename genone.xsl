@@ -34,7 +34,7 @@
 
   ... where the name and the parenthesized Pokedex number are in the first column.
 -->
-\
+
 <xsl:template match="/pokedex">
   <html>
   <body>
